@@ -35,7 +35,7 @@ const Aiimage = () => {
     setGeneratedImage(null);
 
     try {
-      const res = await fetch("http://localhost:5000/api/ai/generate-image", {
+      const res = await fetch("https://stellix-x.onrender.com/api/ai/generate-image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
