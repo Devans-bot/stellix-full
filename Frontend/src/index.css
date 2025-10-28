@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  background-color:black; /* your app background */
+  color: white; /* optional text color */
+}
+@layer components {
+  .frosted-glass {
+    @apply bg-white/25 backdrop-blur-xl rounded-2xl shadow-lg;
+  }
+
+  .transparent-glass {
+    @apply bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl;
+  }
+
+  .soft-glass {
+    @apply bg-white/15 backdrop-blur backdrop-brightness-90 border border-white/15 rounded-lg;
+  }
+
+  
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+    
+}
+
+.common-input{
+  @apply  text-sm text-white bg-black mb-2 h-14 block w-12/12 mt-2  px-3 py-2 border-white border-2 rounded-xl  shadow-sm focus:outline-none sm:text-sm;
+}
+
+.my-masonry-grid {
+  display: flex;
+  margin-left: -35px; /* gutter size offset */
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 35px;
+  background-clip: padding-box;
+}
+
+.my-masonry-grid_column > div {
+  margin-bottom: 35px;
+}
+
+.navbar-blur {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(10px); /* Safari + Chrome */
+  -webkit-backdrop-filter: blur(10px); /* Safari specific */
+  background-color: rgba(15, 14, 21, 0.6); /* add tint */
+  border-radius: 1rem;
+}
+
+/* Hide scrollbar for all elements with scrollbar-none */
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+.scrollbar-none {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.slide-in{
+  position: fixed;
+  top:0;
+  left: 0;
+  width: 100;
+  height: 100vh;
+  background: black;
+  transform-origin: right;
+}
+
+
+.slide-out{
+  position: fixed;
+  top:0;
+  left: 0;
+  width: 100;
+  height: 100vh;
+  background: black;
+  transform-origin: left;
+}
