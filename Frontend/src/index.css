@@ -11,6 +11,16 @@ html, body, #root {
 }
 
 
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+  background-color: #000;
+}
+
+/* Optional: if you have a fixed bottom bar (like your navigation) */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
 @supports (padding: env(safe-area-inset-top)) {
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);
