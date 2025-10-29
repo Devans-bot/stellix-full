@@ -38,7 +38,7 @@ const Home = () => {
 
  
 
-<div className='-mb-2  overflow-auto scrollbar-none min-h-screen'> 
+<div className='-mb-2  overflow-hidden scrollbar-none min-h-screen'> 
     
     <div className=" bg-[#00000] overflow-hidden mt-28 w-8xl pl-40 hidden md:block">
     <div className="  fixed top-0 left-0 right-0 z-1 bg-black/90 backdrop-blur-md px-6 pb-20 pt-5  h-1/10">
@@ -66,7 +66,7 @@ placeholder='Search..'
 
 
     
-    <div  id="home-scroll-root" className="bg-[#0F0E15] -mt-2 max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 block md:hidden">
+    <div  id="home-scroll-root" className="bg-[#0F0E15] mt-10 max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 block md:hidden">
       <div className='h-9'><h1>.</h1></div>
       <Topics/>
       <Masonry

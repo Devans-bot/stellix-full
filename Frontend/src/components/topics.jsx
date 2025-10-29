@@ -71,37 +71,25 @@ const Topics = () => {
   </nav>
 </div>
 
-{/* Mobile Nav */}{/* ✅ Mobile Nav (Full-Screen Safe Area Support) */}
-<div className="block md:hidden">
-  <nav
-    className="fixed top-0 left-0 z-50 w-screen 
-               bg-black rounded-b-xl backdrop-blur-xl 
-               pt-[env(safe-area-inset-top)] pb-2"
-  >
-    <div className="relative flex items-center justify-center">
+{/* Mobile Nav */}<div className="block md:hidden">
+  <nav className="h-20 w-screen rounded-b-xl bg-[black]/90 backdrop-blur-xl fixed top-0 right-0 z-50">
+    <div className="relative flex items-center justify-center mt-3">
       {/* Left-aligned logo */}
-      <Link to="/" className="absolute left-4 top-2">
-        <img
-          src={logo}
-          onClick={handleReload}
-          alt="logo"
-          className="h-8"
-        />
+      <Link to="/" className="absolute left-4">
+        <img src={logo} onClick={handleReload} alt="logo" className="h-8" />
       </Link>
 
-      {/* Centered button group */}
+      {/* Centered buttons container */}
       <div
         ref={containerRefMobile}
-        className="relative flex gap-2 justify-center items-center mt-2 mb-1"
+        className="relative flex gap-2 justify-center items-center"
       >
-        {/* Background sliding highlight */}
         <span
           ref={bgRefMobile}
-          className="absolute top-0 left-0 h-full bg-blue-500 rounded-2xl z-0 transition-all duration-300"
+          className="absolute top-0 left-0 p-4 bg-blue-500 rounded-2xl z-0 transition-all duration-300"
           style={{ width: buttonRefsMobile.current[0]?.offsetWidth || 0 }}
         ></span>
 
-        {/* Buttons */}
         <button
           ref={(el) => (buttonRefsMobile.current[0] = el)}
           data-filter="all"
@@ -123,7 +111,6 @@ const Topics = () => {
     </div>
   </nav>
 </div>
-
 
 
    </>
