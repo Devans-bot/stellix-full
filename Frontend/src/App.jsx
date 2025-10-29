@@ -80,9 +80,9 @@ function App() {
                   exit={{ x: "100%" }}
                   transition={{
                     type: "spring",      // spring = gives bounce
-                    stiffness:130,      // higher = faster
-                    damping: 12,         // lower = more bouncy
-                    mass: 3           // adjust feel
+                    stiffness:180,      // higher = faster
+                    damping: 10,         // lower = more bouncy
+                    mass: 2           // adjust feel
                   }}
                 >
                     <Pinpage user={user} onClose={() => navigate(-1)} />
