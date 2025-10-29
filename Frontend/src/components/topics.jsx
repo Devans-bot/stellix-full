@@ -72,8 +72,16 @@ const Topics = () => {
 </div>
 
 {/* Mobile Nav */}<div className="block md:hidden">
-  <nav className="h-14 w-screen rounded-b-xl bg-[black]/90 backdrop-blur-xl fixed top-0 right-0 z-50">
-    <div className="relative flex items-center justify-center mt-3">
+  <nav
+    className="fixed top-0 right-0 z-50 w-screen rounded-b-xl 
+               bg-black backdrop-blur-xl 
+               pb-safe pt-safe"
+    style={{
+      paddingTop: "env(safe-area-inset-top)",
+      backgroundColor: "black", // solid black ensures no transparency
+    }}
+  >
+    <div className="relative flex items-center justify-center mt-2">
       {/* Left-aligned logo */}
       <Link to="/" className="absolute left-4">
         <img src={logo} onClick={handleReload} alt="logo" className="h-8" />

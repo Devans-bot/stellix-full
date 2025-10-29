@@ -9,6 +9,16 @@ html, body, #root {
   background-color:black; /* your app background */
   color: white; /* optional text color */
 }
+
+
+@supports (padding: env(safe-area-inset-top)) {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+}
 @layer components {
   .frosted-glass {
     @apply bg-white/25 backdrop-blur-xl rounded-2xl shadow-lg;
