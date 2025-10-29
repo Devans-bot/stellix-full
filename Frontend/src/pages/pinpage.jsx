@@ -69,9 +69,7 @@ const Pinpage = ({ user }) => {
 
 
   const handleBack = () => {
- 
       nav(-1);
-    
   };
   
 
@@ -104,10 +102,6 @@ const Pinpage = ({ user }) => {
   const deletepin = () => {
       deletePin(pin._id, navigate);
   };
-
-
-
-
 
 
   const handleOutside = (e) => {
@@ -159,8 +153,6 @@ const Pinpage = ({ user }) => {
 
 
   return (
-
-
 
 
 <>

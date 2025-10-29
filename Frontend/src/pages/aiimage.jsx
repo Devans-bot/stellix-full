@@ -64,7 +64,7 @@ const Aiimage = () => {
     
     try {
       setbLoading(true)
-      const res = await fetch("http://localhost:5000/api/ai/savePin", {
+      const res = await fetch("https://stellix-x.onrender.com/api/ai/savePin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

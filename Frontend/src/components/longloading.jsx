@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 const LongLoading = ({ duration = 12000 }) => { // simulate loading duration
   const [showMessage, setShowMessage] = useState(false);
-  const [loadingDone, setLoadingDone] = useState(false);
 
   useEffect(() => {
     // Show "loading is long" message after 9 seconds
@@ -11,9 +10,6 @@ const LongLoading = ({ duration = 12000 }) => { // simulate loading duration
     }, 9000);
 
     // Finish loading after `duration`
-    const finishTimer = setTimeout(() => {
-      setLoadingDone(true);
-    }, duration);
 
     return () => {
       clearTimeout(messageTimer);
@@ -21,7 +17,6 @@ const LongLoading = ({ duration = 12000 }) => { // simulate loading duration
     };
   }, [duration]);
 
-  if (loadingDone) return <div>✅ Loading Complete!</div>;
 
   return (
     
