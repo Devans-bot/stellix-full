@@ -97,22 +97,19 @@ export const Pinprovider=({children})=>{
       setloading(true);
       const { data } = await axios.post("/api/pins/createpin", formdata);
   
-      if(data){
-        navigate("/");
-      }
       toast.success(data.message);
       setUploadFile([]);
       setUploadFilePrev("");
       setpin("");
       settitle("");
       fetchpins();
-      
   
     } catch (error) {
       console.log(error);
       toast.error("Upload failed");
     } finally {
-      setloading(false); // ✅ Always runs
+      setloading(false);
+      navigate("/") // ✅ Always runs
     }
   }
   
