@@ -13,7 +13,6 @@ const LongLoading = ({ duration = 12000 }) => { // simulate loading duration
 
     return () => {
       clearTimeout(messageTimer);
-      clearTimeout(finishTimer);
     };
   }, [duration]);
 
