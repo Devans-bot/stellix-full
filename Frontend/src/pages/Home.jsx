@@ -67,7 +67,7 @@ placeholder='Search..'
 
     
     <div  id="home-scroll-root" className="bg-[#0F0E15] mt-10 max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 block md:hidden">
-      <div className='h-9'><h1>.</h1></div>
+      
       <Topics/>
       <Masonry
         breakpointCols={mobileview}
