@@ -13,40 +13,34 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const extractWords = (text = "") =>{
+
+const extractWords = (text = "") =>
   text
     .toLowerCase()
     .split(/[\s,.;:!?()"'`]+/)
     .filter((w) => w.length > 2 && !stopwords.has(w));
 
-const stopwords = new Set(["a", "an", "the", "is", "in", "to", "of", "and", "for", "on", "at", "by"]);
-}
 export const createpin = async (req, res) => {
   try {
     const { title, pin } = req.body;
-    if (!title || !pin)
-      return res.status(400).json({ error: "Title and pin are required" });
-    if (!req.file)
-      return res.status(400).json({ error: "Image file is required" });
+    if (!title || !pin) return res.status(400).json({ error: "Title and pin are required" });
+    if (!req.file) return res.status(400).json({ error: "Image file is required" });
 
     // Convert buffer to Data URI
     const fileUri = getdataurl(req.file);
 
-    // 🚀 Run upload + AI analysis in parallel
-    const [uploadResult, analysisResult] = await Promise.all([
-      cloudinary.v2.uploader.upload(fileUri.content, { folder: "pins" }),
-      analyzeImage(req.file.buffer)
-    ]);
+    // Upload image to Cloudinary
+    const uploadResult = await cloudinary.v2.uploader.upload(fileUri.content, { folder: "pins" });
 
-    const { objects, colors, ocrText } = analysisResult;
+    // Analyze image: objects, colors, OCR
+    const { objects, colors} = await analyzeImage(req.file.buffer);
 
     // 🔹 Extract keywords from title + pin (description)
     const titleWords = extractWords(title);
     const descWords = extractWords(pin);
-    const ocrWords = extractWords(ocrText);
 
     // 🔹 Merge all tags (remove duplicates)
-    const tags = [...new Set([...objects, ...colors, ...titleWords, ...descWords, ...ocrWords])];
+    const tags = [...new Set([...objects, ...colors, ...titleWords, ...descWords])];
 
     // Save new pin
     const newPin = new Pin({
