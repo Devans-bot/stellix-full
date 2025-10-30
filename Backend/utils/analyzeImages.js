@@ -1,10 +1,10 @@
 import * as tf from "@tensorflow/tfjs-node";
 import * as cocoSsd from "@tensorflow-models/coco-ssd";
+import sharp from "sharp";
 import getColors from "get-image-colors";
 import nearestColor from "nearest-color";
 import Tesseract from "tesseract.js";
 
-// 🎨 Basic color palette
 const basicPalette = {
   red: "#FF0000",
   green: "#00FF00",
@@ -20,62 +20,56 @@ const basicPalette = {
 };
 const findClosestColorName = nearestColor.from(basicPalette);
 
-// ✅ Cache COCO-SSD model globally
+// ✅ Cache COCO model in memory (load only once)
 let cocoModel = null;
-async function getCocoModel() {
+async function getModel() {
   if (!cocoModel) {
     cocoModel = await cocoSsd.load();
-    console.log("✅ COCO-SSD model loaded once.");
+    console.log("✅ COCO-SSD model loaded once and cached");
   }
   return cocoModel;
 }
 
 export async function analyzeImage(buffer, mimeType = "image/jpeg") {
-  const cleanup = () => {
-    try {
-      tf.engine().startScope();
-      tf.engine().endScope();
-      if (global.gc) global.gc();
-    } catch {}
-  };
+  try {
+    // 🖼️ Resize to speed up analysis (max 600px)
+    const resizedBuffer = await sharp(buffer)
+      .resize(600, 600, { fit: "inside" })
+      .toBuffer();
 
-  // --- PARALLEL ANALYSIS ---
-  const [colorRes, objectRes, ocrRes] = await Promise.allSettled([
-    // 1️⃣ Dominant Colors
-    (async () => {
-      const palette = await getColors(buffer, mimeType);
-      const hexColors = palette.map((c) => c.hex());
-      return [...new Set(hexColors.map((hex) => findClosestColorName(hex).name))];
-    })(),
+    // 🎨 Run color extraction and object detection in parallel
+    const [colorResult, objectResult] = await Promise.allSettled([
+      (async () => {
+        const palette = await getColors(resizedBuffer, mimeType);
+        const hexColors = palette.map(c => c.hex());
+        return [...new Set(hexColors.map(hex => findClosestColorName(hex).name))];
+      })(),
+      (async () => {
+        const model = await getModel();
+        const tensor = tf.node.decodeImage(resizedBuffer);
+        const predictions = await model.detect(tensor);
+        tensor.dispose();
+        return predictions.map(p => p.class);
+      })(),
+    ]);
 
-    // 2️⃣ Object Detection (Fast Inference)
-    (async () => {
-      const model = await getCocoModel();
-      const tensor = tf.node.decodeImage(buffer, 3);
-      const resized = tf.image.resizeBilinear(tensor, [300, 300]);
-      const predictions = await model.detect(resized);
-      tensor.dispose();
-      resized.dispose();
-      return predictions.map((p) => p.class);
-    })(),
+    const colors = colorResult.value || [];
+    const objects = objectResult.value || [];
 
-    // 3️⃣ Adaptive OCR (only if text detected in model or small image)
-    (async () => {
-      // skip OCR if image is too big or memory is tight
-      if (buffer.length > 2 * 1024 * 1024) return ""; // skip >2MB images
-      const { data: { text } } = await Tesseract.recognize(buffer, "eng", {
-        tessedit_char_whitelist: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
-        tessedit_pageseg_mode: 6,
-        logger: () => {},
-      });
-      return text.trim();
-    })(),
-  ]);
+    // 🔠 Run OCR only if image >100KB
+    let ocrText = "";
+    if (buffer.length > 100 * 1024) {
+      try {
+        const { data } = await Tesseract.recognize(resizedBuffer, "eng");
+        ocrText = data.text.trim();
+      } catch (e) {
+        console.warn("OCR skipped/fallback:", e.message);
+      }
+    }
 
-  const colors = colorRes.status === "fulfilled" ? colorRes.value : [];
-  const objects = objectRes.status === "fulfilled" ? objectRes.value : [];
-  const ocrText = ocrRes.status === "fulfilled" ? ocrRes.value : "";
-
-  cleanup();
-  return { colors, objects, ocrText };
+    return { colors, objects, ocrText };
+  } catch (err) {
+    console.error("❌ analyzeImage failed:", err);
+    return { colors: [], objects: [], ocrText: "" };
+  }
 }
