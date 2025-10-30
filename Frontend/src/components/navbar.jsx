@@ -181,7 +181,7 @@ useLayoutEffect(() => {
 
       {/* ✅ Mobile Bottom Navbar */}
 
-      <div className="fixed  md:hidden  bottom-1 left-1/2 transform -translate-x-1/2 flex items-center gap-4 justify-evenly h-13  z-40  p-4  w-70 rounded-3xl bg-black/70 backdrop-blur-md border-1 border-black">
+      <div className="fixed  md:hidden  bottom-3 left-1/2 transform -translate-x-1/2 flex items-center gap-4 justify-evenly h-13  z-40  p-4  w-70 rounded-3xl bg-black/70 backdrop-blur-md border-1 border-black">
       <Link to="/">
          <HiOutlineHome className={` size-7 active:scale-130 transition-transform duration-200 ease-out ${location.pathname === "/" ? "text-white" : "text-white"}`}/>
          {/* <IoMdHome `} /> */}

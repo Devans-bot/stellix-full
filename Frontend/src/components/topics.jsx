@@ -72,7 +72,7 @@ const Topics = () => {
 </div>
 
 {/* Mobile Nav */}<div className="block md:hidden">
-  <nav className="h-18 w-screen  rounded-b-xl bg-[black]/90 backdrop-blur-xl fixed top-0 right-0 z-50">
+  <nav className="h-20 flex items-end justify-center w-screen  rounded-b-xl bg-[black]/90 backdrop-blur-xl fixed top-0 right-0 z-50">
     <div className="relative flex items-center justify-center mt-3">
       {/* Left-aligned logo */}
       <Link to="/" className="absolute left-4">
