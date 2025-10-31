@@ -3,7 +3,6 @@ import * as cocoSsd from "@tensorflow-models/coco-ssd";
 import sharp from "sharp";
 import getColors from "get-image-colors";
 import nearestColor from "nearest-color";
-import Tesseract from "tesseract.js";
 
 const basicPalette = {
   red: "#FF0000",
@@ -56,18 +55,7 @@ export async function analyzeImage(buffer, mimeType = "image/jpeg") {
     const colors = colorResult.value || [];
     const objects = objectResult.value || [];
 
-    // 🔠 Run OCR only if image >100KB
-    let ocrText = "";
-    if (buffer.length > 100 * 1024) {
-      try {
-        const { data } = await Tesseract.recognize(resizedBuffer, "eng");
-        ocrText = data.text.trim();
-      } catch (e) {
-        console.warn("OCR skipped/fallback:", e.message);
-      }
-    }
-
-    return { colors, objects, ocrText };
+    return { colors, objects, ocrText: "" }; // keep ocrText key for backward compatibility
   } catch (err) {
     console.error("❌ analyzeImage failed:", err);
     return { colors: [], objects: [], ocrText: "" };
