@@ -1,7 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import myimage from"../assets/IMG_4154.PNG"
-import facebook from"../assets/facebook.jpeg"
 import google from "../assets/google.jpeg"
 import { RiBloggerLine } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
