@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import logo from "../assets/Moodhive.png"
 import { Link, useNavigate } from 'react-router-dom'
 import { userdata } from '../context/usercontext'
 import { Loadinganimation } from '../components/loading'
